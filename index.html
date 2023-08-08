@@ -7,11 +7,15 @@
 
 <body>
     <h1>Bruh</h1>
-    <div id="videoList"></div>
 
-    <script src="youtube-display.js"></script>
-    <script src="youtube-request.js"></script>
-    <script src="https://apis.google.com/js/client.js?onload=loadYouTubeApi"></script>
+    <iframe id="player" type="text/html"></iframe>
+
+    <div id="videoList">
+    </div>
+
+    <script type="module" src="youtube-request.js"></script>
+    <script type="module" src="youtube-display.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
 </body>
 
 </html>

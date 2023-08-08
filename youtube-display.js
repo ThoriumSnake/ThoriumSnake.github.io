@@ -4,27 +4,43 @@
 //     execute();
 // })
 
-function displayPlaylist(playlistItems) {
-    const videoList = document.getElementById('videoList');
-    videoList.innerHTML = ''; // Clear the video list if already present
+// var videoElement = document.getElementById("player");
+var player = document.getElementById("player");
+
+export function displayPlaylist(playlistItems) {
+    const videoList = document.getElementById("videoList");
+    videoList.innerHTML = ""; // Clear the video list if already present
 
     if (playlistItems) {
+        player.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}`);
+
         for (const item of playlistItems) {
             const videoId = item.snippet.resourceId.videoId;
             const videoTitle = item.snippet.title;
 
-            // Create a link for each video
-            const videoLink = document.createElement('a');
-            videoLink.href = `https://www.youtube.com/watch?v=${videoId}`;
-            videoLink.textContent = videoTitle;
-            videoLink.target = '_blank';
+            var itemContainer = document.createElement("div");
+            var title = document.createElement("p");
 
-            // Append the link to the video list div
-            videoList.appendChild(videoLink);
-            videoList.appendChild(document.createElement('br'));
+            title.textContent = videoTitle;
+            itemContainer.dataset.url = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            itemContainer.classList.add("playlist-item-cont");
+
+            itemContainer.appendChild(title);
+            itemContainer.appendChild(document.createElement("br"));
+
+            itemContainer.addEventListener("click", setVideo);
+
+            videoList.appendChild(itemContainer);
         }
     }
     else {
-        videoList.textContent = 'No videos found in the playlist.';
+        videoList.textContent = "No videos found in the playlist.";
+    }
+
+    function setVideo() {
+        player.setAttribute("src", this.dataset.url);
+
+        console.log(this.dataset.url);
+        console.log(player.src);
     }
 }

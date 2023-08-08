@@ -2,3 +2,4 @@ client_secret*
 /venv
 *.old
 example.py
+/node_modules
