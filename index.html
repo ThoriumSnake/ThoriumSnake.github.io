@@ -12,14 +12,17 @@
     <button disabled type="button" id="playlist-fetch">Get Playlist</button>
     <button type="button" id="test-button">Disable Controls</button>
 
-    <iframe id="player" type="text/html"></iframe>
+    <!-- <iframe id="player" type="text/html"></iframe> -->
+    <div id="player"></div>
 
     <div id="videoList">
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="main.js"></script>
     <script type="module" src="youtube-request.js"></script>
     <script type="module" src="youtube-display.js"></script>
-    <script src="https://apis.google.com/js/client.js"></script>
 </body>
 
 </html>

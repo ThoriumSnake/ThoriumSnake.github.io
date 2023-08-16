@@ -5,6 +5,8 @@ import { displayPlaylist } from "./youtube-display.js";
 //Add OAuth to get private PLs
 //Add check for restricted and privated videos so they can be skipped
 //Add warning for private playslits, wrong ids, etc
+//Send request using enter button
+//Call onYouTubeIframeAPIReady or make div invisible until playlist is fetched
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";

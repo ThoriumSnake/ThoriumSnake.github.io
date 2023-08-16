@@ -1,16 +1,11 @@
-// var requestButton = document.getElementById("request-button");
 
-// requestButton.addEventListener("click", (event) => {
-//     execute();
-// })
-
-// var videoElement = document.getElementById("player");
 var player = document.getElementById("player");
 var testButton = document.getElementById("test-button").addEventListener("click", (e) => {
     var src = player.src;
     player.src = src.concat("&controls=0");
     console.log(player.src);
 });
+
 
 export function displayPlaylist(playlistItems) {
     const videoList = document.getElementById("videoList");
