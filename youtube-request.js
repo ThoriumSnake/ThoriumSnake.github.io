@@ -4,19 +4,20 @@ import { displayPlaylist } from "./youtube-display.js";
 //Add check for valid list ID
 //Add OAuth to get private PLs
 //Add check for restricted and privated videos so they can be skipped
+//Add warning for private playslits, wrong ids, etc
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
 var loaded = false;
 
 var playlistId = ""; // Replace with your YouTube playlist ID
-var playlistUrl;
+var playlistUrl = "";
 
 var requestButton = document.getElementById("playlist-fetch");
-var urlBar = document.getElementById("playlist-url");
+var urlTextBox = document.getElementById("playlist-url");
 
 requestButton.addEventListener("click", () => {
-    playlistUrl = urlBar.value;
+    playlistUrl = urlTextBox.value;
 
     var url = new URL(playlistUrl);
 
@@ -37,7 +38,7 @@ function loadYouTubeApi() {
     gapi.client.load("youtube", "v3", function () {
         loaded = true;
         requestButton.disabled = false;
-        urlBar.disabled = false;
+        urlTextBox.disabled = false;
     });
 }
 
