@@ -6,13 +6,18 @@
 
 // var videoElement = document.getElementById("player");
 var player = document.getElementById("player");
+var testButton = document.getElementById("test-button").addEventListener("click", (e) => {
+    var src = player.src;
+    player.src = src.concat("&controls=0");
+    console.log(player.src);
+});
 
 export function displayPlaylist(playlistItems) {
     const videoList = document.getElementById("videoList");
-    videoList.innerHTML = ""; // Clear the video list if already present
 
     if (playlistItems) {
-        player.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}`);
+        videoList.innerHTML = ""; // Clear the video list if already present
+        player.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
 
         for (const item of playlistItems) {
             const videoId = item.snippet.resourceId.videoId;
