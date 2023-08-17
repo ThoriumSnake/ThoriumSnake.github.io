@@ -1,9 +1,9 @@
 
-var player = document.getElementById("player");
+var playerDiv = document.getElementById("player");
 var testButton = document.getElementById("test-button").addEventListener("click", (e) => {
-    var src = player.src;
-    player.src = src.concat("&controls=0");
-    console.log(player.src);
+    var src = playerDiv.src;
+    playerDiv.src = src.concat("&controls=0");
+    console.log(playerDiv.src);
 });
 
 
@@ -12,7 +12,11 @@ export function displayPlaylist(playlistItems) {
 
     if (playlistItems) {
         videoList.innerHTML = ""; // Clear the video list if already present
-        player.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
+        // playerDiv.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
+        player.loadVideoById({
+            "videoId": playlistItems[0].snippet.resourceId.videoId,
+        })
+        player.pauseVideo();
 
         for (const item of playlistItems) {
             const videoId = item.snippet.resourceId.videoId;
@@ -22,7 +26,7 @@ export function displayPlaylist(playlistItems) {
             var title = document.createElement("p");
 
             title.textContent = videoTitle;
-            itemContainer.dataset.url = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            itemContainer.dataset.videoId = videoId;
             itemContainer.classList.add("playlist-item-cont");
 
             itemContainer.appendChild(title);
@@ -38,9 +42,13 @@ export function displayPlaylist(playlistItems) {
     }
 
     function setVideo() {
-        player.setAttribute("src", this.dataset.url);
+        // playerDiv.setAttribute("src", this.dataset.url);
 
-        console.log(this.dataset.url);
-        console.log(player.src);
+        // console.log(this.dataset.url);
+
+        player.loadVideoById({
+            "videoId": this.dataset.videoId,
+        })
+        console.log(playerDiv.src);
     }
 }

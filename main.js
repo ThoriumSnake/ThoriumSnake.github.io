@@ -5,7 +5,7 @@ function onYouTubeIframeAPIReady() {
         width: "305",
         height: "150",
         playerVars: {
-            "playsinline": 0,
+            "autoplay": 0,
         },
         events: {
             "onReady": onPlayerReady,
@@ -16,7 +16,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
 }
 
 

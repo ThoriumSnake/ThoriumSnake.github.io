@@ -1,6 +1,10 @@
 import { displayPlaylist } from "./youtube-display.js";
 
 //TODO
+//Do most tasks with the player and data api, use backend db for storing queues (or maybe local storage? a backing would be nice tho)
+//Get ALL videos in a playlist, rn only 50 are fetched
+//Add button to go to original youtube link
+//Add comments
 //Add check for valid list ID
 //Add OAuth to get private PLs
 //Add check for restricted and privated videos so they can be skipped
