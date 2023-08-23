@@ -11,6 +11,7 @@ import { displayPlaylist } from "./youtube-display.js";
 //Add warning for private playslits, wrong ids, etc
 //Send request using enter button
 //Call onYouTubeIframeAPIReady or make div invisible until playlist is fetched
+//Paginate the playlist items (visually only, for the user's convenience)
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
@@ -40,6 +41,7 @@ requestButton.addEventListener("click", () => {
 
     if (loaded)
         fetchPlaylistVideos();
+    // fetchPlaylistPage();
 });
 
 
@@ -68,21 +70,39 @@ function checkValidUrl(url) {
 }
 
 // Function to fetch the videos from the playlist
-function fetchPlaylistVideos() {
-    const request = gapi.client.youtube.playlistItems.list({
+function fetchPlaylistPage(pageToken) {
+    var params = {
         part: "snippet",
         playlistId: playlistId,
-        maxResults: 50 // Adjust the value based on your needs (maximum is 50)
-    });
+        maxResults: 50, // Adjust the value based on your needs (maximum is 50)
+        pageToken: pageToken
+    }
 
-    request.execute(function (response) {
-        var playlistItems = response.result.items;
-        console.log("Next page token: " + response.result.nextPageToken);
-        console.log("Prev page token: " + response.result.prevPageToken);
-        displayPlaylist(playlistItems);
-    });
+    return gapi.client.youtube.playlistItems.list(params);
 
+    // request.execute(function (response) {
+    //     var playlistItems = response.result.items;
+    //     // console.log("Next page token: " + response.result.nextPageToken);
+    //     // console.log("Prev page token: " + response.result.prevPageToken);
+    //     // displayPlaylist(playlistItems);
+    // }).then(function () {
+
+    // })
 }
+
+async function fetchPlaylistVideos() {
+    var pageToken;
+    var listItems = [];
+    do {
+        await fetchPlaylistPage(pageToken).then(function (response) {
+            listItems.push(response.result.items);
+            pageToken = response.result.nextPageToken;
+        })
+    } while (pageToken);
+
+    console.log(listItems);
+}
+
 
 window.addEventListener("load", loadYouTubeApi);
 // document.addEventListener("DOMContentLoaded", loadYouTubeApi);
