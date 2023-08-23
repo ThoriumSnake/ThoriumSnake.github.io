@@ -13,10 +13,9 @@ export function displayPlaylist(playlistItems) {
     if (playlistItems) {
         videoList.innerHTML = ""; // Clear the video list if already present
         // playerDiv.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
-        player.loadVideoById({
+        player.cueVideoById({
             "videoId": playlistItems[0].snippet.resourceId.videoId,
         })
-        player.pauseVideo();
 
         for (const item of playlistItems) {
             const videoId = item.snippet.resourceId.videoId;

@@ -21,6 +21,9 @@ var playlistUrl = "";
 
 var requestButton = document.getElementById("playlist-fetch");
 var urlTextBox = document.getElementById("playlist-url");
+//Disabling button and textbox here since refreshing page leaves them enabled
+requestButton.disabled = true;
+urlTextBox.disabled = true;
 
 requestButton.addEventListener("click", () => {
     playlistUrl = urlTextBox.value;
@@ -34,7 +37,9 @@ requestButton.addEventListener("click", () => {
     }
 
     playlistId = url.searchParams.get("list");
-    fetchPlaylistVideos();
+
+    if (loaded)
+        fetchPlaylistVideos();
 });
 
 
@@ -71,10 +76,13 @@ function fetchPlaylistVideos() {
     });
 
     request.execute(function (response) {
-        const playlistItems = response.result.items;
+        var playlistItems = response.result.items;
+        console.log("Next page token: " + response.result.nextPageToken);
+        console.log("Prev page token: " + response.result.prevPageToken);
         displayPlaylist(playlistItems);
     });
 
 }
 
 window.addEventListener("load", loadYouTubeApi);
+// document.addEventListener("DOMContentLoaded", loadYouTubeApi);
