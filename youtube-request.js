@@ -12,6 +12,9 @@ import { displayPlaylist } from "./youtube-display.js";
 //Send request using enter button
 //Call onYouTubeIframeAPIReady or make div invisible until playlist is fetched
 //Paginate the playlist items (visually only, for the user's convenience)
+//Search new videos function (Add to playlist sidebar after entering video)
+//Search within playlist (autosearch, case insensitive, searches for words within)
+//Save pagination progress on playlist pages
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
@@ -92,15 +95,16 @@ function fetchPlaylistPage(pageToken) {
 
 async function fetchPlaylistVideos() {
     var pageToken;
-    var listItems = [];
+    var playlistPages = [];
     do {
         await fetchPlaylistPage(pageToken).then(function (response) {
-            listItems.push(response.result.items);
+            playlistPages.push(response.result.items);
             pageToken = response.result.nextPageToken;
         })
     } while (pageToken);
 
-    console.log(listItems);
+    console.log(playlistPages);
+    displayPlaylist(playlistPages)
 }
 
 

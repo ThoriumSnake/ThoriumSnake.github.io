@@ -7,33 +7,41 @@ var testButton = document.getElementById("test-button").addEventListener("click"
 });
 
 
-export function displayPlaylist(playlistItems) {
+export function displayPlaylist(playlistPages) {
     const videoList = document.getElementById("videoList");
 
-    if (playlistItems) {
+    if (playlistPages) {
         videoList.innerHTML = ""; // Clear the video list if already present
         // playerDiv.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
         player.cueVideoById({
-            "videoId": playlistItems[0].snippet.resourceId.videoId,
+            "videoId": playlistPages[0][0].snippet.resourceId.videoId,
         })
 
-        for (const item of playlistItems) {
-            const videoId = item.snippet.resourceId.videoId;
-            const videoTitle = item.snippet.title;
+        for (const page of playlistPages) {
+            var pageContainer = document.createElement("div");
+            pageContainer.classList.add("playlist-page-cont");
 
-            var itemContainer = document.createElement("div");
-            var title = document.createElement("p");
+            for (const item of page) {
 
-            title.textContent = videoTitle;
-            itemContainer.dataset.videoId = videoId;
-            itemContainer.classList.add("playlist-item-cont");
+                const videoId = item.snippet.resourceId.videoId;
+                const videoTitle = item.snippet.title;
 
-            itemContainer.appendChild(title);
-            itemContainer.appendChild(document.createElement("br"));
+                var itemContainer = document.createElement("div");
+                var title = document.createElement("p");
 
-            itemContainer.addEventListener("click", setVideo);
+                title.textContent = videoTitle;
+                itemContainer.dataset.videoId = videoId;
+                itemContainer.classList.add("playlist-item-cont");
 
-            videoList.appendChild(itemContainer);
+                itemContainer.appendChild(title);
+                itemContainer.appendChild(document.createElement("br"));
+
+                itemContainer.addEventListener("click", setVideo);
+
+                pageContainer.appendChild(itemContainer);
+            }
+
+            videoList.appendChild(pageContainer);
         }
     }
     else {
