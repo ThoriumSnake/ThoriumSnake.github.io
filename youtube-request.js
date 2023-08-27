@@ -88,15 +88,6 @@ function fetchPlaylistPage(pageToken) {
     }
 
     return gapi.client.youtube.playlistItems.list(params);
-
-    // request.execute(function (response) {
-    //     var playlistItems = response.result.items;
-    //     // console.log("Next page token: " + response.result.nextPageToken);
-    //     // console.log("Prev page token: " + response.result.prevPageToken);
-    //     // displayPlaylist(playlistItems);
-    // }).then(function () {
-
-    // })
 }
 
 async function fetchPlaylistVideos() {
@@ -106,14 +97,18 @@ async function fetchPlaylistVideos() {
 
     do {
         await fetchPlaylistPage(pageToken).then(function (response) {
-            playlistPages.push(response.result.items);
-            console.log(response.result.items);
+            var pageItems = response.result.items;
+            if (!Array.isArray(pageItems) || !pageItems.length)
+                throw new Error("Playlist is empty!")
+
+            playlistPages.push(pageItems);
+            console.log(pageItems);
             pageToken = response.result.nextPageToken;
 
             if (index == 0)
-                createFirstPage(response.result.items);
+                createFirstPage(pageItems);
             else
-                createPlaylistPage(response.result.items);
+                createPlaylistPage(pageItems, index + 1);
             index += 1;
         })
     } while (pageToken);

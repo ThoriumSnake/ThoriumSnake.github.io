@@ -6,51 +6,60 @@ var testButton = document.getElementById("test-button").addEventListener("click"
     console.log(playerDiv.src);
 });
 
+var paginationContainer = document.getElementsByClassName("page-number-cont")[0];
+
+var pageIndex = 1;
 
 export function createFirstPage(videos) {
     const panelContainer = document.getElementById("videoList");
 
-    if (videos) {
-        panelContainer.innerHTML = ""; // Clear the video list if already present
-        player.cueVideoById({
-            "videoId": videos[0].snippet.resourceId.videoId,
-        })
-        createPlaylistPage(videos);
-    }
-    else {
-        panelContainer.textContent = "No videos found, is the playlist empty?";
-    }
+    panelContainer.innerHTML = ""; // Clear the video list if already present
+    player.cueVideoById({
+        "videoId": videos[0].snippet.resourceId.videoId,
+    })
+    createPlaylistPage(videos, 1);
 }
 
-export function createPlaylistPage(videos) {
-    if (videos) {
-        const panelContainer = document.getElementById("videoList");
+export function createPlaylistPage(videos, index) {
+    if (!index || index < 1)
+        throw new RangeError("Index must be one or higher!")
 
-        var pageContainer = document.createElement("div");
-        pageContainer.classList.add("playlist-page-cont");
+    const panelContainer = document.getElementById("videoList");
 
-        for (const video of videos) {
+    var pageContainer = document.createElement("div");
+    pageContainer.classList.add("playlist-page-cont");
 
-            const videoId = video.snippet.resourceId.videoId;
-            const videoTitle = video.snippet.title;
+    for (const video of videos) {
 
-            var itemContainer = document.createElement("div");
-            var title = document.createElement("p");
+        const videoId = video.snippet.resourceId.videoId;
+        const videoTitle = video.snippet.title;
 
-            title.textContent = videoTitle;
-            itemContainer.dataset.videoId = videoId;
-            itemContainer.classList.add("playlist-item-cont");
+        var itemContainer = document.createElement("div");
+        var title = document.createElement("p");
 
-            itemContainer.appendChild(title);
-            itemContainer.appendChild(document.createElement("br"));
+        title.textContent = videoTitle;
+        itemContainer.dataset.videoId = videoId;
+        itemContainer.classList.add("playlist-item-cont");
 
-            itemContainer.addEventListener("click", setVideo);
+        itemContainer.appendChild(title);
+        itemContainer.appendChild(document.createElement("br"));
 
-            pageContainer.appendChild(itemContainer);
-        }
+        itemContainer.addEventListener("click", setVideo);
 
-        panelContainer.appendChild(pageContainer);
+        pageContainer.appendChild(itemContainer);
     }
+
+    panelContainer.appendChild(pageContainer);
+    createPaginationButton(index);
+}
+
+function createPaginationButton(index) {
+    var pageButton = document.createElement("li");
+    pageButton.dataset.pageNumber = index;
+    pageButton.textContent = index;
+    pageButton.classList.add("page-button")
+
+    paginationContainer.appendChild(pageButton);
 }
 
 function setVideo() {
