@@ -1,0 +1,25 @@
+.pagination {}
+
+.pagination ul {
+    list-style: none;
+    visibility: visible;
+    display: inline;
+}
+
+.pagination li {
+    display: inline;
+}
+
+.page-button {
+    color: dodgerblue;
+    padding-right: 0.3rem;
+}
+
+.page-button:hover {
+    cursor: pointer;
+    color: midnightblue;
+}
+
+.page-number-cont {
+    padding: 0;
+}

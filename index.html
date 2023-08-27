@@ -3,6 +3,7 @@
 
 <head>
     <title>YouTube Playlist Video URLs</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
@@ -10,10 +11,20 @@
 
     <input disabled type="text" id="playlist-url" placeholder="Playlist URL or URL from video in playlist">
     <button disabled type="button" id="playlist-fetch">Get Playlist</button>
-    <button type="button" id="test-button">Disable Controls</button>
+    <button type="button" id="test-button">Test stuff i guess</button>
 
-    <!-- <iframe id="player" type="text/html"></iframe> -->
     <div id="player"></div>
+
+    <div class="pagination">
+        <ul>
+            <li class="page-button">&lt;</li>
+            <li>
+                <ul class="page-number-cont">
+                </ul>
+            </li>
+            <li class="page-button">&gt;</li>
+        </ul>
+    </div>
 
     <div id="videoList">
     </div>
