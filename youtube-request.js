@@ -1,4 +1,4 @@
-import { createFirstPage, createPlaylistPage } from "./youtube-display.js";
+import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 
 //TODO
 //Do most tasks with the player and data api, use backend db for storing queues (or maybe local storage? a backing would be nice tho)
