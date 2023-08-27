@@ -7,55 +7,59 @@ var testButton = document.getElementById("test-button").addEventListener("click"
 });
 
 
-export function displayPlaylist(playlistPages) {
-    const videoList = document.getElementById("videoList");
+export function createFirstPage(videos) {
+    const panelContainer = document.getElementById("videoList");
 
-    if (playlistPages) {
-        videoList.innerHTML = ""; // Clear the video list if already present
-        // playerDiv.setAttribute("src", `https://www.youtube.com/embed/${playlistItems[0].snippet.resourceId.videoId}?autoplay=0`);
+    if (videos) {
+        panelContainer.innerHTML = ""; // Clear the video list if already present
         player.cueVideoById({
-            "videoId": playlistPages[0][0].snippet.resourceId.videoId,
+            "videoId": videos[0].snippet.resourceId.videoId,
         })
-
-        for (const page of playlistPages) {
-            var pageContainer = document.createElement("div");
-            pageContainer.classList.add("playlist-page-cont");
-
-            for (const item of page) {
-
-                const videoId = item.snippet.resourceId.videoId;
-                const videoTitle = item.snippet.title;
-
-                var itemContainer = document.createElement("div");
-                var title = document.createElement("p");
-
-                title.textContent = videoTitle;
-                itemContainer.dataset.videoId = videoId;
-                itemContainer.classList.add("playlist-item-cont");
-
-                itemContainer.appendChild(title);
-                itemContainer.appendChild(document.createElement("br"));
-
-                itemContainer.addEventListener("click", setVideo);
-
-                pageContainer.appendChild(itemContainer);
-            }
-
-            videoList.appendChild(pageContainer);
-        }
+        createPlaylistPage(videos);
     }
     else {
-        videoList.textContent = "No videos found in the playlist.";
+        panelContainer.textContent = "No videos found, is the playlist empty?";
     }
+}
 
-    function setVideo() {
-        // playerDiv.setAttribute("src", this.dataset.url);
+export function createPlaylistPage(videos) {
+    if (videos) {
+        const panelContainer = document.getElementById("videoList");
 
-        // console.log(this.dataset.url);
+        var pageContainer = document.createElement("div");
+        pageContainer.classList.add("playlist-page-cont");
 
-        player.loadVideoById({
-            "videoId": this.dataset.videoId,
-        })
-        console.log(playerDiv.src);
+        for (const video of videos) {
+
+            const videoId = video.snippet.resourceId.videoId;
+            const videoTitle = video.snippet.title;
+
+            var itemContainer = document.createElement("div");
+            var title = document.createElement("p");
+
+            title.textContent = videoTitle;
+            itemContainer.dataset.videoId = videoId;
+            itemContainer.classList.add("playlist-item-cont");
+
+            itemContainer.appendChild(title);
+            itemContainer.appendChild(document.createElement("br"));
+
+            itemContainer.addEventListener("click", setVideo);
+
+            pageContainer.appendChild(itemContainer);
+        }
+
+        panelContainer.appendChild(pageContainer);
     }
+}
+
+function setVideo() {
+    // playerDiv.setAttribute("src", this.dataset.url);
+
+    // console.log(this.dataset.url);
+
+    player.loadVideoById({
+        "videoId": this.dataset.videoId,
+    })
+    console.log(playerDiv.src);
 }
