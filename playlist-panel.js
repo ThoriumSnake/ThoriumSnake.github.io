@@ -1,6 +1,16 @@
 //Try it the shitty way, think about performance later
 //Array of all videos, shift 'em, make brand new pages from that
 
+//TODO
+//Make left and right buttons work
+//Limit displayed pagination buttons to 5(?)
+//Add playlist element moving (later tho, gonna need to add playlist updating)
+//Style this ugly bitch
+
+//Make an array of the playlist items' ELEMENTS, this way you can shuffle those instead of making new ones
+
+//Code next video on video end
+
 var playerDiv = document.getElementById("player");
 var testButton = document.getElementById("test-button").addEventListener("click", (e) => {
     var src = playerDiv.src;
@@ -8,7 +18,9 @@ var testButton = document.getElementById("test-button").addEventListener("click"
     console.log(playerDiv.src);
 });
 
-var paginationContainer = document.getElementsByClassName("page-number-cont")[0];
+var paginationContainer = document.getElementById("page-number-cont");
+
+var pageArrows = document.getElementsByClassName("page-arrow");
 
 var pageIndex = 1;
 var currentPageElement;
@@ -22,6 +34,10 @@ export function createFirstPage(videos) {
     player.cueVideoById({
         "videoId": videos[0].snippet.resourceId.videoId,
     })
+
+    pageArrows[0].style.visibility = "visible"
+    pageArrows[1].style.visibility = "visible"
+
     createPlaylistPage(videos, 1);
     currentPageElement = pages[0];
     currentPageElement.style.display = "block";

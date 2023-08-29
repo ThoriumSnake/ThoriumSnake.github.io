@@ -1,0 +1,40 @@
+.playlist-panel {
+    float: right;
+    border: 1px solid seashell;
+    width: calc(25% - 2px);
+    height: calc(100% - 2px);
+    overflow: auto;
+}
+
+.pagination {
+    display: block;
+}
+
+.pagination ul {
+    list-style: none;
+    visibility: visible;
+    display: inline;
+    padding-left: 0.4rem;
+}
+
+.pagination li {
+    display: inline;
+}
+
+.page-button {
+    color: dodgerblue;
+    padding-right: 0.3rem;
+}
+
+.page-button:hover {
+    cursor: pointer;
+    color: midnightblue;
+}
+
+.page-arrow {
+    visibility: hidden;
+}
+
+#page-number-cont {
+    padding: 0;
+}

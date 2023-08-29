@@ -3,30 +3,43 @@
 
 <head>
     <title>YouTube Playlist Video URLs</title>
+    <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="playlist-panel.css">
+    <link rel="stylesheet" href="player.css">
 </head>
 
 <body>
-    <h1>Bruh</h1>
+    <nav>
+        <h1>YouPlayer</h1>
+        <div class="request">
+            <input disabled type="text" id="playlist-url" placeholder="Playlist URL or URL from video in playlist">
+            <button disabled type="button" id="playlist-fetch">Get Playlist</button>
+            <button type="button" id="test-button">Test stuff i guess</button>
+        </div>
+        <!-- Add a "Saved Playlists" button here or smth -->
+    </nav>
 
-    <input disabled type="text" id="playlist-url" placeholder="Playlist URL or URL from video in playlist">
-    <button disabled type="button" id="playlist-fetch">Get Playlist</button>
-    <button type="button" id="test-button">Test stuff i guess</button>
+    <div class="main-display">
 
-    <div id="player"></div>
+        <div id="player">
+        </div>
 
-    <div class="pagination">
-        <ul>
-            <li class="page-button">&lt;</li>
-            <li>
-                <ul class="page-number-cont">
+        <div class="playlist-panel">
+            <div class="pagination">
+                <ul>
+                    <li class="page-button page-arrow">&lt;</li>
+                    <li>
+                        <ul id="page-number-cont">
+                        </ul>
+                    </li>
+                    <li class="page-button page-arrow">&gt;</li>
                 </ul>
-            </li>
-            <li class="page-button">&gt;</li>
-        </ul>
-    </div>
+            </div>
+            <div id="videoList">
+            </div>
+        </div>
 
-    <div id="videoList">
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
