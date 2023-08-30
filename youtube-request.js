@@ -24,13 +24,13 @@ import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
-var loaded = false;
+let loaded = false;
 
-var playlistId = ""; // Replace with your YouTube playlist ID
-var playlistUrl = "";
+let playlistId = ""; // Replace with your YouTube playlist ID
+let playlistUrl = "";
 
-var requestButton = document.getElementById("playlist-fetch");
-var urlTextBox = document.getElementById("playlist-url");
+let requestButton = document.getElementById("fetch-button");
+let urlTextBox = document.getElementById("url-input-box");
 //Disabling button and textbox here since refreshing page leaves them enabled
 requestButton.disabled = true;
 urlTextBox.disabled = true;
@@ -38,9 +38,9 @@ urlTextBox.disabled = true;
 requestButton.addEventListener("click", () => {
     playlistUrl = urlTextBox.value;
 
-    var url = new URL(playlistUrl);
+    let url = new URL(playlistUrl);
 
-    var valid = checkValidUrl(url);
+    let valid = checkValidUrl(url);
     if (!valid) {
         console.log("Invalid URL");
         return;
@@ -80,7 +80,7 @@ function checkValidUrl(url) {
 
 // Function to fetch the videos from the playlist
 function fetchPlaylistPage(pageToken) {
-    var params = {
+    let params = {
         part: "snippet",
         playlistId: playlistId,
         maxResults: 50, // Adjust the value based on your needs (maximum is 50)
@@ -91,17 +91,15 @@ function fetchPlaylistPage(pageToken) {
 }
 
 async function fetchPlaylistVideos() {
-    var pageToken;
-    var playlistPages = [];
-    var index = 0;
+    let pageToken;
+    let index = 0;
 
     do {
         await fetchPlaylistPage(pageToken).then(function (response) {
-            var pageItems = response.result.items;
+            let pageItems = response.result.items;
             if (!Array.isArray(pageItems) || !pageItems.length)
                 throw new Error("Playlist is empty!")
 
-            playlistPages.push(pageItems);
             console.log(pageItems);
             pageToken = response.result.nextPageToken;
 
@@ -116,4 +114,3 @@ async function fetchPlaylistVideos() {
 
 
 window.addEventListener("load", loadYouTubeApi);
-// document.addEventListener("DOMContentLoaded", loadYouTubeApi);

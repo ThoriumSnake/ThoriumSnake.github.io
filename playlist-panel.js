@@ -11,32 +11,33 @@
 
 //Code next video on video end
 
-var playerDiv = document.getElementById("player");
-var testButton = document.getElementById("test-button").addEventListener("click", (e) => {
-    var src = playerDiv.src;
-    playerDiv.src = src.concat("&controls=0");
-    console.log(playerDiv.src);
-});
+//Idea: random queue, basically get x random videos from the list (that haven't been played in a while)
 
-var paginationContainer = document.getElementById("page-number-cont");
+//In case of failing to fetch new playlist keep showing old stuff
 
-var pageArrows = document.getElementsByClassName("page-arrow");
+//If video is unavailable auto-skip (check if first vid is unavailable)
 
-var pageIndex = 1;
-var currentPageElement;
-var pages = [];
+const pageNumbersContainer = document.getElementById("page-number-cont");
+const playlistPagesContainer = document.getElementById("playlist-pages-container");
+const paginationContainer = document.getElementById("pagination-container");
+
+let pageIndex = 1;
+let currentPageElement;
+let pages = [];
+let playlistItemElements = [];
 
 export function createFirstPage(videos) {
-    const panelContainer = document.getElementById("videoList");
+    pageNumbersContainer.innerHTML = "";
+    playlistPagesContainer.innerHTML = ""; // Clear the video list if already present
+    //Using this method of emptying as it's fast and has no side effects
+    pages.length = 0;
+    playlistItemElements.length = 0;
 
-    paginationContainer.innerHTML = "";
-    panelContainer.innerHTML = ""; // Clear the video list if already present
     player.cueVideoById({
         "videoId": videos[0].snippet.resourceId.videoId,
     })
 
-    pageArrows[0].style.visibility = "visible"
-    pageArrows[1].style.visibility = "visible"
+    paginationContainer.classList.remove("invisible");
 
     createPlaylistPage(videos, 1);
     currentPageElement = pages[0];
@@ -47,39 +48,43 @@ export function createPlaylistPage(videos, index) {
     if (!index || index < 1)
         throw new RangeError("Index must be one or higher!")
 
-    const panelContainer = document.getElementById("videoList");
-
-    var pageContainer = document.createElement("div");
+    const pageContainer = document.createElement("div");
     pageContainer.dataset.pageNumber = index;
     pageContainer.classList.add("playlist-page-cont");
 
     for (const video of videos) {
-
         const videoId = video.snippet.resourceId.videoId;
         const videoTitle = video.snippet.title;
+        let itemElement = createPlaylistElement(videoId, videoTitle)
 
-        var itemContainer = document.createElement("div");
-        var title = document.createElement("p");
-
-        title.textContent = videoTitle;
-        itemContainer.dataset.videoId = videoId;
-        itemContainer.classList.add("playlist-item-cont");
-
-        itemContainer.appendChild(title);
-        itemContainer.appendChild(document.createElement("br"));
-
-        itemContainer.addEventListener("click", setVideo);
-
-        pageContainer.appendChild(itemContainer);
+        pageContainer.appendChild(itemElement);
+        playlistItemElements.push(itemElement);
     }
 
     pageContainer.style.display = "none";
     createPageButton(index);
-    pages.push(panelContainer.appendChild(pageContainer));
+    let childNode = playlistPagesContainer.appendChild(pageContainer)
+    pages.push(childNode);
+}
+
+function createPlaylistElement(id, title) {
+    const itemContainer = document.createElement("div");
+    const titleElement = document.createElement("p");
+
+    titleElement.textContent = title;
+    itemContainer.dataset.videoId = id;
+    itemContainer.classList.add("playlist-item-cont");
+
+    itemContainer.appendChild(titleElement);
+    itemContainer.appendChild(document.createElement("br"));
+
+    itemContainer.addEventListener("click", setVideo);
+
+    return itemContainer;
 }
 
 function createPageButton(index) {
-    var pageButton = document.createElement("li");
+    const pageButton = document.createElement("li");
     pageButton.dataset.pageNumber = index;
     pageButton.textContent = index;
     pageButton.classList.add("page-button")
@@ -87,7 +92,7 @@ function createPageButton(index) {
         setPage(event.target.dataset.pageNumber);
     })
 
-    paginationContainer.appendChild(pageButton);
+    pageNumbersContainer.appendChild(pageButton);
 }
 
 function setPage(index) {
@@ -102,12 +107,7 @@ function setPage(index) {
 }
 
 function setVideo() {
-    // playerDiv.setAttribute("src", this.dataset.url);
-
-    // console.log(this.dataset.url);
-
     player.loadVideoById({
         "videoId": this.dataset.videoId,
     })
-    console.log(playerDiv.src);
 }

@@ -13,9 +13,8 @@
     <nav>
         <h1>YouPlayer</h1>
         <div class="request">
-            <input disabled type="text" id="playlist-url" placeholder="Playlist URL or URL from video in playlist">
-            <button disabled type="button" id="playlist-fetch">Get Playlist</button>
-            <button type="button" id="test-button">Test stuff i guess</button>
+            <input disabled type="text" id="url-input-box" placeholder="Playlist URL or URL from video in playlist">
+            <button disabled type="button" id="fetch-button">Get Playlist</button>
         </div>
         <!-- Add a "Saved Playlists" button here or smth -->
     </nav>
@@ -26,7 +25,12 @@
         </div>
 
         <div class="playlist-panel">
-            <div class="pagination">
+
+            <div class="panel-controls">
+                <button class="invisible" id="shuffle-button">Shuffle</button>
+            </div>
+
+            <div class="pagination invisible" id="pagination-container">
                 <ul>
                     <li class="page-button page-arrow">&lt;</li>
                     <li>
@@ -36,8 +40,10 @@
                     <li class="page-button page-arrow">&gt;</li>
                 </ul>
             </div>
-            <div id="videoList">
+
+            <div id="playlist-pages-container">
             </div>
+
         </div>
 
     </div>
