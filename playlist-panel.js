@@ -17,16 +17,24 @@
 
 //If video is unavailable auto-skip (check if first vid is unavailable)
 
+//Properly sized player, otherwise black bars show up
+
+//Add loading bar for "Get playlist" and pagination
+
+export { shuffleButton, playlistItemElements, createFirstPage, createPlaylistPage };
+
 const pageNumbersContainer = document.getElementById("page-number-cont");
 const playlistPagesContainer = document.getElementById("playlist-pages-container");
 const paginationContainer = document.getElementById("pagination-container");
+const shuffleButton = document.getElementById("shuffle-button");
 
-let pageIndex = 1;
 let currentPageElement;
 let pages = [];
 let playlistItemElements = [];
 
-export function createFirstPage(videos) {
+shuffleButton.disabled = true;
+
+function createFirstPage(videos) {
     pageNumbersContainer.innerHTML = "";
     playlistPagesContainer.innerHTML = ""; // Clear the video list if already present
     //Using this method of emptying as it's fast and has no side effects
@@ -38,19 +46,20 @@ export function createFirstPage(videos) {
     })
 
     paginationContainer.classList.remove("invisible");
+    shuffleButton.classList.remove("invisible");
 
     createPlaylistPage(videos, 1);
     currentPageElement = pages[0];
     currentPageElement.style.display = "block";
 }
 
-export function createPlaylistPage(videos, index) {
+function createPlaylistPage(videos, index) {
     if (!index || index < 1)
         throw new RangeError("Index must be one or higher!")
 
     const pageContainer = document.createElement("div");
     pageContainer.dataset.pageNumber = index;
-    pageContainer.classList.add("playlist-page-cont");
+    pageContainer.classList.add("playlist-page");
 
     for (const video of videos) {
         const videoId = video.snippet.resourceId.videoId;
@@ -73,7 +82,7 @@ function createPlaylistElement(id, title) {
 
     titleElement.textContent = title;
     itemContainer.dataset.videoId = id;
-    itemContainer.classList.add("playlist-item-cont");
+    itemContainer.classList.add("playlist-item");
 
     itemContainer.appendChild(titleElement);
     itemContainer.appendChild(document.createElement("br"));
@@ -98,7 +107,7 @@ function createPageButton(index) {
 function setPage(index) {
     currentPageElement.style.display = "none";
 
-    pageIndex = index;
+    // pageIndex = index;
     currentPageElement = pages[index - 1]
 
     currentPageElement.style.display = "block";

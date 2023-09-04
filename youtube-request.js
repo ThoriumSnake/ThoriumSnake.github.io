@@ -1,4 +1,3 @@
-import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 
 //TODO
 //Do most tasks with the player and data api, use backend db for storing queues (or maybe local storage? a backing would be nice tho)
@@ -21,6 +20,8 @@ import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 //When fetching data make a page object (that goes into an array) which contains the items and whether the page has already been requested (and another for loaded)
 //Fetch all pages in sequence, the user can fetch a page manually by clicking on the pagination buttons, this will be faster for later pages than waiting
 //The number of videos can be fetched, use this to shuffle the playlist, add video id to an array to know whether that video has already been played (Don't play video again for x videos)
+
+import { createFirstPage, createPlaylistPage, shuffleButton } from "./playlist-panel.js";
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
@@ -110,6 +111,9 @@ async function fetchPlaylistVideos() {
             index += 1;
         })
     } while (pageToken);
+
+    //Enabling here after all pages are created
+    shuffleButton.disabled = false;
 }
 
 
