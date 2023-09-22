@@ -57,10 +57,10 @@ function createPlaylistPage(videos, index) {
     pageContainer.dataset.pageNumber = index;
     pageContainer.classList.add("playlist-page");
 
-    for (const video of videos) {
-        const videoId = video.snippet.resourceId.videoId;
-        const videoTitle = video.snippet.title;
-        let itemElement = createPlaylistElement(videoId, videoTitle)
+    for (let i = 0; i < videos.length; i++) {
+        const videoId = videos[i].snippet.resourceId.videoId;
+        const videoTitle = videos[i].snippet.title;
+        let itemElement = createPlaylistElement(videoId, videoTitle, ((index - 1) * maxElementsPerPage + i + 1));
 
         pageContainer.appendChild(itemElement);
         playlistItemElements.push(itemElement);
@@ -72,16 +72,19 @@ function createPlaylistPage(videos, index) {
     pages.push(childNode);
 }
 
-function createPlaylistElement(id, title) {
+function createPlaylistElement(id, title, index) {
     const itemContainer = document.createElement("div");
     const titleElement = document.createElement("p");
+    const numberElement = document.createElement("p");
 
     titleElement.textContent = title;
+    numberElement.textContent = index;
+
     itemContainer.dataset.videoId = id;
+    itemContainer.dataset.number = index;
     itemContainer.classList.add("playlist-item");
 
-    itemContainer.appendChild(titleElement);
-    itemContainer.appendChild(document.createElement("br"));
+    itemContainer.append(titleElement, numberElement);
 
     itemContainer.addEventListener("click", setVideo);
 
