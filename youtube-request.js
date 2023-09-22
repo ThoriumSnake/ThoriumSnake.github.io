@@ -21,7 +21,8 @@
 //Fetch all pages in sequence, the user can fetch a page manually by clicking on the pagination buttons, this will be faster for later pages than waiting
 //The number of videos can be fetched, use this to shuffle the playlist, add video id to an array to know whether that video has already been played (Don't play video again for x videos)
 
-import { createFirstPage, createPlaylistPage, shuffleButton } from "./playlist-panel.js";
+import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
+import { shuffleButton } from "./panel-controls.js";
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";

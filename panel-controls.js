@@ -1,6 +1,10 @@
-import { shuffleButton, playlistItemElements } from "./playlist-panel.js";
+import { playlistItemElements } from "./playlist-panel.js";
+export { shuffleButton };
 
 const maxElementsPerPage = 50;
+
+const shuffleButton = document.getElementById("shuffle-button");
+shuffleButton.disabled = true;
 
 shuffleButton.addEventListener("click", () => {
     shuffle(playlistItemElements);

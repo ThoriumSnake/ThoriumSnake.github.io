@@ -21,18 +21,15 @@
 
 //Add loading bar for "Get playlist" and pagination
 
-export { shuffleButton, playlistItemElements, createFirstPage, createPlaylistPage };
+export { playlistItemElements, createFirstPage, createPlaylistPage };
 
 const pageNumbersContainer = document.getElementById("page-number-cont");
 const playlistPagesContainer = document.getElementById("playlist-pages-container");
 const paginationContainer = document.getElementById("pagination-container");
-const shuffleButton = document.getElementById("shuffle-button");
 
 let currentPageElement;
 let pages = [];
 let playlistItemElements = [];
-
-shuffleButton.disabled = true;
 
 function createFirstPage(videos) {
     pageNumbersContainer.innerHTML = "";
@@ -46,7 +43,6 @@ function createFirstPage(videos) {
     })
 
     paginationContainer.classList.remove("invisible");
-    shuffleButton.classList.remove("invisible");
 
     createPlaylistPage(videos, 1);
     currentPageElement = pages[0];
