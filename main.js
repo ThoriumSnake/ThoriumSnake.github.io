@@ -1,4 +1,5 @@
 let player;
+const maxElementsPerPage = 50;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {

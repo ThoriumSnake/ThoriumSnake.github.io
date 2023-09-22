@@ -85,7 +85,7 @@ function fetchPlaylistPage(pageToken) {
     let params = {
         part: "snippet",
         playlistId: playlistId,
-        maxResults: 50, // Adjust the value based on your needs (maximum is 50)
+        maxResults: maxElementsPerPage, // Adjust the value based on your needs (maximum is 50)
         pageToken: pageToken
     }
 
