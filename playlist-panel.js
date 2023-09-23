@@ -21,7 +21,7 @@
 
 //Add loading bar for "Get playlist" and pagination
 
-export { playlistItemElements, createFirstPage, createPlaylistPage };
+export { playlistItemElements, currentVideoIndex, setCurrentVideoIndex, createFirstPage, createPlaylistPage };
 
 const pageNumbersContainer = document.getElementById("page-number-cont");
 const playlistPagesContainer = document.getElementById("playlist-pages-container");
@@ -30,6 +30,7 @@ const paginationContainer = document.getElementById("pagination-container");
 let currentPageElement;
 let pages = [];
 let playlistItemElements = [];
+let currentVideoIndex = 0;
 
 function createFirstPage(videos) {
     pageNumbersContainer.innerHTML = "";
@@ -79,9 +80,10 @@ function createPlaylistElement(id, title, index) {
 
     titleElement.textContent = title;
     numberElement.textContent = index;
+    numberElement.classList.add("video-number");
 
     itemContainer.dataset.videoId = id;
-    itemContainer.dataset.number = index;
+    itemContainer.dataset.videoNumber = index;
     itemContainer.classList.add("playlist-item");
 
     itemContainer.append(titleElement, numberElement);
@@ -118,4 +120,14 @@ function setVideo() {
     player.loadVideoById({
         "videoId": this.dataset.videoId,
     })
+    currentVideoIndex = this.dataset.videoNumber;
+}
+
+function setCurrentVideoIndex(index) {
+    if (index < 0 || index > playlistItemElements.length)
+        throw new RangeError("Index is out of range!");
+    if (index === undefined || index === null)
+        throw new TypeError("Index is undefined or null!");
+
+    currentVideoIndex = index;
 }

@@ -14,9 +14,14 @@ shuffleButton.addEventListener("click", () => {
 
         for (let j = 0; j < maxElementsPerPage; j++) {
             let item = playlistItemElements[j + (i * maxElementsPerPage)];
+
             //Doing this for pages with less than 50 items
             if (typeof item == "undefined")
                 break;
+
+            let videoNumber = i * maxElementsPerPage + j + 1;
+            item.dataset.videoNumber = videoNumber;
+            item.querySelector(":scope > .video-number").textContent = videoNumber;
 
             items[j] = item;
         }

@@ -3,8 +3,8 @@ const maxElementsPerPage = 50;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        width: "305",
-        height: "150",
+        width: "480",
+        height: "270",
         playerVars: {
             "autoplay": 0,
             "rel": 0,
@@ -15,11 +15,4 @@ function onYouTubeIframeAPIReady() {
         }
     });
     console.log("this api loaded bruh");
-}
-
-function onPlayerReady(event) {
-}
-
-
-function onPlayerStateChange(event) {
 }

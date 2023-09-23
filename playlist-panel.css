@@ -38,11 +38,15 @@
     padding: 0;
 }
 
+.playlist-item {
+    display: block;
+    margin: 1rem 0 1rem 0;
+}
+
 .playlist-item p {
     display: inline;
 }
 
-.playlist-item {
-    display: block;
-    margin: 1rem 0 1rem 0;
+.video-number {
+    margin-left: 1rem;
 }
