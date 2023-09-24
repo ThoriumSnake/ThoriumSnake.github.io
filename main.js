@@ -8,10 +8,12 @@ function onYouTubeIframeAPIReady() {
         playerVars: {
             "autoplay": 0,
             "rel": 0,
+            // "origin": location.origin,
         },
         events: {
             "onReady": onPlayerReady,
-            "onStateChange": onPlayerStateChange
+            "onStateChange": onPlayerStateChange,
+            "onError": onPlayerError,
         }
     });
     console.log("this api loaded bruh");
