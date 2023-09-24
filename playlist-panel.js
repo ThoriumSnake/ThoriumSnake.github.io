@@ -48,6 +48,9 @@ function createFirstPage(videos) {
     createPlaylistPage(videos, 1);
     currentPageElement = pages[0];
     currentPageElement.style.display = "block";
+
+    //Set this after creating page
+    setCurrentVideoIndex(1)
 }
 
 function createPlaylistPage(videos, index) {
@@ -120,11 +123,12 @@ function setVideo() {
     player.loadVideoById({
         "videoId": this.dataset.videoId,
     })
-    currentVideoIndex = this.dataset.videoNumber;
+    currentVideoIndex = Number(this.dataset.videoNumber);
 }
 
 function setCurrentVideoIndex(index) {
-    if (index < 0 || index > playlistItemElements.length)
+    //Must be at least 1
+    if (index < 1 || index > playlistItemElements.length)
         throw new RangeError("Index is out of range!");
     if (index === undefined || index === null)
         throw new TypeError("Index is undefined or null!");
