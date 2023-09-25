@@ -23,6 +23,7 @@
 
 import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 import { shuffleButton } from "./panel-controls.js";
+import { fetchPlaylistItemThumbnails } from "./thumbnails.js";
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
@@ -102,9 +103,9 @@ async function fetchPlaylistVideos() {
             if (!Array.isArray(pageItems) || !pageItems.length)
                 throw new Error("Playlist is empty!")
 
-            console.log(pageItems);
             pageToken = response.result.nextPageToken;
 
+            fetchPlaylistItemThumbnails(pageItems);
             if (index == 0)
                 createFirstPage(pageItems);
             else
