@@ -1,6 +1,28 @@
+.player-container {
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    align-self: stretch;
+    /* This makes the element stretch vertically */
+    justify-self: stretch;
+    /* This makes the element stretch horizontally */
+    flex-grow: 1;
+}
+
 #player {
+    width: 100%;
+    height: 100%;
+}
+
+#custom-player {
     float: left;
     padding: 0;
     width: 75%;
     height: 100%;
+    display: none;
+    /* background-image: url(neco-arc-resize.avif); */
+    /* background-size: cover; */
 }

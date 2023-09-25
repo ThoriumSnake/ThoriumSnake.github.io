@@ -1,9 +1,18 @@
-.playlist-panel {
-    float: right;
+.panel-container {
+    --border-height: 2px;
+    --border-width: 2px;
+    /* float: right; */
     border: 1px solid seashell;
-    width: calc(25% - 2px);
-    height: calc(100% - 2px);
+    width: calc(35% - var(--border-width));
+    height: calc(100% - var(--border-height));
     overflow: auto;
+
+    margin-left: auto;
+}
+
+.playlist-panel {
+
+    /* height: 99%; */
 }
 
 .pagination {
