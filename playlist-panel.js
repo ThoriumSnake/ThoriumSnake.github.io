@@ -22,6 +22,7 @@
 //Add loading bar for "Get playlist" and pagination
 
 export { playlistItemElements, currentVideoIndex, setCurrentVideoIndex, createFirstPage, createPlaylistPage };
+import { playlistItemThumbnails } from "./thumbnails.js";
 
 const pageNumbersContainer = document.getElementById("page-number-cont");
 const playlistPagesContainer = document.getElementById("playlist-pages-container");
@@ -80,16 +81,20 @@ function createPlaylistElement(id, title, index) {
     const itemContainer = document.createElement("div");
     const titleElement = document.createElement("p");
     const numberElement = document.createElement("p");
+    const imageElement = document.createElement("img");
 
     titleElement.textContent = title;
     numberElement.textContent = index;
     numberElement.classList.add("video-number");
 
+    imageElement.src = playlistItemThumbnails.get(id);
+    imageElement.classList.add("video-thumbnail");
+
     itemContainer.dataset.videoId = id;
     itemContainer.dataset.videoNumber = index;
     itemContainer.classList.add("playlist-item");
 
-    itemContainer.append(titleElement, numberElement);
+    itemContainer.append(numberElement, imageElement, titleElement);
 
     itemContainer.addEventListener("click", setVideo);
 
