@@ -25,7 +25,7 @@ function renderExistingQueues() {
     let queueIds = localStorage.getItem(queueName);
     queueIds = JSON.parse(queueIds);
 
-    while (queueIds.length > 0 && typeof queueIds !== "undefined") {
+    while (queueIds !== null && queueIds.length > 0) {
         renderQueue(queueName, queueIds);
         i += 1;
         queueName = "Queue " + i;
