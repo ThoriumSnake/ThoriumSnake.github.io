@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: only dark;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <nav>
+        <h1>YouPlayer</h1>
+        <div class="request">
+            <input disabled type="text" id="url-input-box" placeholder="Playlist URL or URL from video in playlist">
+            <button disabled type="button" id="fetch-button">Get Playlist</button>
+        </div>
+        <!-- Add a "Saved Playlists" button here or smth -->
+    </nav>
+
+    <button id="test-shuffle-button">Test Shuffle</button>
+
+    <div class="main-display">
+
+        <div id="player">
+        </div>
+
+        <div class="playlist-panel">
+
+            <div class="panel-controls">
+                <button class="invisible" id="shuffle-button">Shuffle</button>
+            </div>
+
+            <div class="pagination invisible" id="pagination-container">
+                <ul>
+                    <li class="page-button page-arrow">&lt;</li>
+                    <li>
+                        <ul id="page-number-cont">
+                        </ul>
+                    </li>
+                    <li class="page-button page-arrow">&gt;</li>
+                </ul>
+            </div>
+
+            <div id="playlist-pages-container">
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="main.js"></script>
+    <script type="module" src="youtube-request.js"></script>
+    <script type="module" src="playlist-panel.js"></script>
+    <script type="module" src="shuffle-test.js"></script>
+
+</body>
+
+</html>

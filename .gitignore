@@ -3,3 +3,8 @@ client_secret*
 *.old
 example.py
 /node_modules
+unused/
+.vscode/
+.eslintrc.json
+potentialbugs
+Todo
