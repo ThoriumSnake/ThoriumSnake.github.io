@@ -24,6 +24,7 @@
 import { createFirstPage, createPlaylistPage } from "./playlist-panel.js";
 import { shuffleButton } from "./panel-controls.js";
 import { fetchPlaylistItemThumbnails } from "./thumbnails.js";
+export { fetchVideosById }
 
 // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
 const apiKey = "AIzaSyB8W6yAgm0yvbCmwFEn0_eRapsv3i739x8";
@@ -32,29 +33,48 @@ let loaded = false;
 let playlistId = ""; // Replace with your YouTube playlist ID
 let playlistUrl = "";
 
-let requestButton = document.getElementById("fetch-button");
+// let requestButton = document.getElementById("fetch-button");
 let urlTextBox = document.getElementById("url-input-box");
 //Disabling button and textbox here since refreshing page leaves them enabled
-requestButton.disabled = true;
+// requestButton.disabled = true;
 urlTextBox.disabled = true;
 
-requestButton.addEventListener("click", () => {
-    playlistUrl = urlTextBox.value;
+urlTextBox.addEventListener("input", () => {
+    setTimeout(() => {
+        playlistUrl = urlTextBox.value;
 
-    let url = new URL(playlistUrl);
+        let url = new URL(playlistUrl);
 
-    let valid = checkValidUrl(url);
-    if (!valid) {
-        console.log("Invalid URL");
-        return;
-    }
+        let valid = checkValidUrl(url);
+        if (!valid) {
+            console.log("Invalid URL");
+            return;
+        }
 
-    playlistId = url.searchParams.get("list");
+        playlistId = url.searchParams.get("list");
 
-    if (loaded)
-        fetchPlaylistVideos();
-    // fetchPlaylistPage();
-});
+        if (loaded)
+            fetchPlaylistVideos();
+    }, 750);
+})
+
+// requestButton.addEventListener("click", () => {
+//     playlistUrl = urlTextBox.value;
+
+//     let url = new URL(playlistUrl);
+
+//     let valid = checkValidUrl(url);
+//     if (!valid) {
+//         console.log("Invalid URL");
+//         return;
+//     }
+
+//     playlistId = url.searchParams.get("list");
+
+//     if (loaded)
+//         fetchPlaylistVideos();
+//     // fetchPlaylistPage();
+// });
 
 
 // Function to load the YouTube API client library
@@ -62,7 +82,7 @@ function loadYouTubeApi() {
     gapi.client.setApiKey(apiKey);
     gapi.client.load("youtube", "v3", function () {
         loaded = true;
-        requestButton.disabled = false;
+        // requestButton.disabled = false;
         urlTextBox.disabled = false;
     });
 }
@@ -116,6 +136,40 @@ async function fetchPlaylistVideos() {
 
     //Enabling here after all pages are created
     shuffleButton.disabled = false;
+}
+
+async function fetchVideosById(ids) {
+    let promises = [];
+    // console.log(ids);
+
+    ids.forEach(id => {
+        promises.push(gapi.client.youtube.videos.list({
+            part: "snippet",
+            id: id
+        }))
+    });
+
+    let items = []
+
+    await Promise.all(promises).then(responses => {
+        responses.forEach(response => {
+            // console.log(...response.result.items);
+            items.push(...response.result.items)
+        })
+    });
+
+    console.log(items);
+    let index = 0;
+    while (items.length > 0) {
+        let pageItems = items.splice(0, maxElementsPerPage);
+
+        fetchPlaylistItemThumbnails(pageItems, ids);
+        if (index == 0)
+            createFirstPage(pageItems, ids);
+        else
+            createPlaylistPage(pageItems, index + 1, ids);
+        index += 1;
+    }
 }
 
 

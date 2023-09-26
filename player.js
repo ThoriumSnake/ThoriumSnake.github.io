@@ -5,7 +5,12 @@ window.onPlayerReady = onPlayerReady;
 window.onPlayerStateChange = onPlayerStateChange;
 window.onPlayerError = onPlayerError;
 
-looping = true;
+let looping = true;
+
+document.getElementById("loop-pl-button").addEventListener("click", () => {
+    looping = !looping;
+});
+
 
 function onPlayerReady(event) {
 }
@@ -18,7 +23,7 @@ function onPlayerStateChange(event) {
 
 function onPlayerError(event) {
     console.log("Player error: ", event.data);
-    setTimeout(loadNextVideoInPlaylist, 2000);
+    setTimeout(loadNextVideoInPlaylist, 2000, looping);
 }
 
 function loadNextVideoInPlaylist(looping = false) {

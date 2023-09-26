@@ -7,43 +7,58 @@
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="playlist-panel.css">
     <link rel="stylesheet" href="player.css">
+    <link rel="stylesheet" href="nav.css">
 </head>
 
 <body>
-    <nav>
-        <h1>YouPlayer</h1>
+    <nav class="main-menu">
+        <h1>You</h1>
         <div class="request">
             <input disabled type="text" id="url-input-box" placeholder="Playlist URL or URL from video in playlist">
-            <button disabled type="button" id="fetch-button">Get Playlist</button>
+            <!-- <button disabled type="button" id="fetch-button">Get Playlist</button> -->
         </div>
         <!-- Add a "Saved Playlists" button here or smth -->
+
+        <div id="queues-container"></div>
     </nav>
 
     <div class="main-display">
 
-        <div id="player">
+        <div class="player-container">
+            <div id="player">
+            </div>
         </div>
 
-        <div class="playlist-panel">
+        <!-- <div id="custom-player">
+        </div> -->
 
-            <div class="panel-controls">
-                <button id="shuffle-button">Shuffle</button>
-            </div>
+        <div class="panel-container">
+            <div class="playlist-panel">
 
-            <div class="pagination invisible" id="pagination-container">
-                <ul>
-                    <li class="page-button page-arrow">&lt;</li>
-                    <li>
-                        <ul id="page-number-cont">
+                <div class="playlist-controls-cont">
+                    <div class="panel-controls">
+                        <button id="loop-pl-button">Loop Playlist</button>
+                        <button id="shuffle-button">Shuffle</button>
+                        <button id="new-queue-button" class="invisible">Create new queue</button>
+                        <button id="accept-button" class="invisible">Accept</button>
+                        <button id="cancel-button" class="invisible">Cancel</button>
+                    </div>
+                    <div class="pagination invisible" id="pagination-container">
+                        <ul>
+                            <li class="page-button page-arrow">&lt;</li>
+                            <li>
+                                <ul id="page-number-cont">
+                                </ul>
+                            </li>
+                            <li class="page-button page-arrow">&gt;</li>
                         </ul>
-                    </li>
-                    <li class="page-button page-arrow">&gt;</li>
-                </ul>
-            </div>
+                    </div>
+                </div>
 
-            <div id="playlist-pages-container">
-            </div>
+                <div id="playlist-pages-container">
+                </div>
 
+            </div>
         </div>
 
     </div>
@@ -55,6 +70,7 @@
     <script type="module" src="playlist-panel.js"></script>
     <script type="module" src="panel-controls.js"></script>
     <script type="module" src="player.js"></script>
+    <script type="module" src="queues.js"></script>
 </body>
 
 </html>

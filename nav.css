@@ -1,0 +1,20 @@
+.main-menu {
+    text-align: center;
+}
+
+.main-menu h1 {
+    font-size: 3rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(21, 21, 21);
+}
+
+.main-menu h1::after {
+    content: "Player";
+    color: red;
+}
+
+.main-menu input {
+    width: 18rem;
+    height: 1.5rem;
+    font-size: 1rem;
+}

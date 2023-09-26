@@ -24,37 +24,64 @@
 export { playlistItemElements, currentVideoIndex, setCurrentVideoIndex, createFirstPage, createPlaylistPage };
 import { playlistItemThumbnails } from "./thumbnails.js";
 
+const paginationContainer = document.getElementById("pagination-container");
 const pageNumbersContainer = document.getElementById("page-number-cont");
 const playlistPagesContainer = document.getElementById("playlist-pages-container");
-const paginationContainer = document.getElementById("pagination-container");
+
+const newQueueButton = document.getElementById("new-queue-button");
+newQueueButton.addEventListener("click", () => {
+    enterEditMode();
+});
+
+const cancelbutton = document.getElementById("cancel-button");
+cancelbutton.addEventListener("click", () => {
+    cancelQueueCreation();
+    exitEditMode();
+});
+
+const acceptButton = document.getElementById("accept-button");
+acceptButton.addEventListener("click", () => {
+    createNewQueue();
+    exitEditMode();
+});
 
 let currentPageElement;
 let pages = [];
 let playlistItemElements = [];
 let currentVideoIndex = 0;
 
-function createFirstPage(videos) {
+//Controls selecting videos, etc
+let editMode = false;
+let selected = [];
+
+function createFirstPage(videos, ids) {
     pageNumbersContainer.innerHTML = "";
     playlistPagesContainer.innerHTML = ""; // Clear the video list if already present
     //Using this method of emptying as it's fast and has no side effects
     pages.length = 0;
     playlistItemElements.length = 0;
 
-    player.cueVideoById({
-        "videoId": videos[0].snippet.resourceId.videoId,
-    })
+    if (ids === undefined)
+        player.cueVideoById({
+            "videoId": videos[0].snippet.resourceId.videoId,
+        })
+    else
+        player.cueVideoById({
+            "videoId": ids[0],
+        })
 
     paginationContainer.classList.remove("invisible");
 
-    createPlaylistPage(videos, 1);
+    createPlaylistPage(videos, 1, ids);
     currentPageElement = pages[0];
     currentPageElement.style.display = "block";
 
     //Set this after creating page
     setCurrentVideoIndex(1)
+    newQueueButton.classList.remove("invisible");
 }
 
-function createPlaylistPage(videos, index) {
+function createPlaylistPage(videos, index, ids) {
     if (!index || index < 1)
         throw new RangeError("Index must be one or higher!")
 
@@ -63,7 +90,7 @@ function createPlaylistPage(videos, index) {
     pageContainer.classList.add("playlist-page");
 
     for (let i = 0; i < videos.length; i++) {
-        const videoId = videos[i].snippet.resourceId.videoId;
+        const videoId = ids === undefined ? videos[i].snippet.resourceId.videoId : ids[i];
         const videoTitle = videos[i].snippet.title;
         let itemElement = createPlaylistElement(videoId, videoTitle, ((index - 1) * maxElementsPerPage + i + 1));
 
@@ -79,12 +106,16 @@ function createPlaylistPage(videos, index) {
 
 function createPlaylistElement(id, title, index) {
     const itemContainer = document.createElement("div");
+    const imageContainer = document.createElement("div");
+
     const titleElement = document.createElement("p");
     const numberElement = document.createElement("p");
     const imageElement = document.createElement("img");
 
+
     titleElement.textContent = title;
     numberElement.textContent = index;
+    titleElement.classList.add("video-title");
     numberElement.classList.add("video-number");
 
     imageElement.src = playlistItemThumbnails.get(id);
@@ -93,10 +124,14 @@ function createPlaylistElement(id, title, index) {
     itemContainer.dataset.videoId = id;
     itemContainer.dataset.videoNumber = index;
     itemContainer.classList.add("playlist-item");
+    imageContainer.classList.add("thumbnail-container");
 
-    itemContainer.append(numberElement, imageElement, titleElement);
+    imageContainer.append(imageElement);
+    itemContainer.append(numberElement, imageContainer, titleElement);
 
-    itemContainer.addEventListener("click", setVideo);
+    itemContainer.addEventListener("click", itemClicked);
+    itemContainer.addEventListener("mouseenter", addCheckmark);
+    itemContainer.addEventListener("mouseleave", removeCheckmark);
 
     return itemContainer;
 }
@@ -111,6 +146,89 @@ function createPageButton(index) {
     })
 
     pageNumbersContainer.appendChild(pageButton);
+}
+
+function itemClicked() {
+    if (editMode) {
+        if (selected.indexOf(this) === -1)
+            selected.push(this);
+        else
+            selected.splice(selected.indexOf(this), 1);
+    }
+    else {
+        const boundSetVideo = setVideo.bind(this);
+        boundSetVideo();
+    }
+}
+
+function createNewQueue() {
+    let selectedIds = [];
+    let queueTitles = [];
+
+
+    selected.forEach(item => {
+        selectedIds.push(item.dataset.videoId);
+        queueTitles.push(item.querySelector(".video-title").textContent);
+    })
+
+    let queueName = "Queue 1";
+    let queueNumber = 1;
+    while (localStorage.getItem(queueName)) {
+        queueNumber += 1;
+        queueName = "Queue " + queueNumber;
+    }
+
+    if (selectedIds.length > 0) {
+        localStorage.setItem(queueName, JSON.stringify(selectedIds));
+        localStorage.setItem(queueName + " titles", JSON.stringify(queueTitles));
+    }
+    selected.forEach(item => {
+        item.classList.remove("selected-thumbnail");
+    })
+
+    const newQueueEvent = new CustomEvent("newQueue", {
+        detail:
+            { ids: selectedIds, title: queueName }
+    });
+    if (selected.length > 0)
+        document.dispatchEvent(newQueueEvent);
+
+    selected = [];
+    // selectedIds = [];
+    // queueTitles = [];
+}
+
+function cancelQueueCreation() {
+    selected.forEach(item => {
+        item.classList.remove("selected-thumbnail");
+    })
+    selected = [];
+    // selectedIds = [];
+    // queueTitles = [];
+}
+
+function enterEditMode() {
+    editMode = true;
+    newQueueButton.disabled = true;
+    acceptButton.classList.remove("invisible");
+    cancelbutton.classList.remove("invisible");
+}
+
+function addCheckmark() {
+    if (editMode)
+        this.classList.add("selected-thumbnail");
+}
+
+function removeCheckmark() {
+    if (selected.indexOf(this) === -1)
+        this.classList.remove("selected-thumbnail");
+}
+
+function exitEditMode() {
+    editMode = false;
+    newQueueButton.disabled = false;
+    acceptButton.classList.add("invisible");
+    cancelbutton.classList.add("invisible");
 }
 
 function setPage(index) {
